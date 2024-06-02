@@ -2,9 +2,10 @@ import { IFootballPlayer } from "../types";
 
 type IProps = {
   players: IFootballPlayer[];
+  onPlayerClick: (id:number) => void;
 };
 
-export const PlayerTable = (props: IProps) => {
+export const PlayerTable = ({players, onPlayerClick}: IProps) => {
   return (
     <table className="table-auto">
       <thead>
@@ -19,8 +20,8 @@ export const PlayerTable = (props: IProps) => {
       </thead>
 
       <tbody>
-        {props.players.map((player, index) => (
-          <tr key={index}>
+        {players.map((player, index) => (
+          <tr key={index} onClick={() => onPlayerClick(player.id)} className="cursor-pointer">
             <td className="text-right px-5">{player.id}</td>
             <td className="text-right px-5">{player.name}</td>
             <td className="text-right px-5">{player.number}</td>
