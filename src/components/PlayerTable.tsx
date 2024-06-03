@@ -13,6 +13,7 @@ export const PlayerTable = ({players, onPlayerClick}: IProps) => {
           <th className="text-right px-5">Id</th>
           <th className="text-right px-5">Name</th>
           <th className="text-right px-5">Team</th>
+          <th className="text-right px-5">Position</th>
         </tr>
       </thead>
 
@@ -22,6 +23,7 @@ export const PlayerTable = ({players, onPlayerClick}: IProps) => {
             <td className="text-right px-5">{player.id}</td>
             <td className="text-right px-5">{player.name}</td>
             <td className="text-right px-5">{player.team}</td>
+            <td className="text-right px-5">{player.position}</td>
           </tr>
         ))}
       </tbody>
