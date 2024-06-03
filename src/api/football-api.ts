@@ -24,3 +24,16 @@ export const getPlayerById = async (
     return null;
   }
 };
+
+export const addPlayer = async (
+  player: IFootballPlayer
+): Promise<IFootballPlayer> => {
+  const response = await fetch(`${BASE_URL}/players`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(player),
+  });
+  return response.json();
+};
