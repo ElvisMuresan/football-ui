@@ -36,6 +36,7 @@ export const FIlterByParams = () => {
           className="mr-4 p-2 border border-gray-300"
           id="position"
           onBlur={(e) => setPosition(e.target.value as '' | IPosition)}
+          onChange={(e) => setPosition(e.target.value as '' | IPosition)}
           value={position}
         >
           <option value="">All</option>
@@ -54,7 +55,7 @@ export const FIlterByParams = () => {
         </button>
       </div>
       <div>
-        {playersByParams.length > 0 ? (
+        {playersByParams.length > 0 && (
           <table className="table-auto mb-4 w-full border-collapse border  border-gray-300 shadow-lg">
             <thead>
               <tr className="bg-gray-100">
@@ -89,8 +90,6 @@ export const FIlterByParams = () => {
               ))}
             </tbody>
           </table>
-        ) : (
-          <div>No players found</div>
         )}
       </div>
     </>

@@ -22,8 +22,8 @@ export const App = () => {
 
   return (
     <div>
-      <FIlterByParams />
       <PlayerTable players={players} />
+      <FIlterByParams />
     </div>
   )
 }
