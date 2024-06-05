@@ -21,6 +21,7 @@ export const PlayerTable = ({ players }: IProps) => {
 
   const handleDeletePlayer = async (id: number) => {
     await deletePlayer(id)
+    console.log(players)
     setSelectedPlayer(null)
   }
 

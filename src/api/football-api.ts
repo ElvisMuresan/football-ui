@@ -37,7 +37,28 @@ export const deletePlayer = async (id: number) => {
     .then((response) => response.json())
     .catch((error) => console.log('Error:', error))
 
-  window.location.reload()
+  return response
+}
+
+export const editPlayer = async (
+  id: number,
+  playerUpdated: {
+    age: number
+    name: string
+    number: number
+    position: string
+    team: string
+  }
+): Promise<IFootballPlayer> => {
+  const response = await fetch(`${BASE}/players/${id}`, {
+    body: JSON.stringify(playerUpdated),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT'
+  })
+    .then((response) => response.json())
+    .catch((error) => console.log('Error:', error))
 
   return response
 }
