@@ -31,3 +31,13 @@ export const getPlayerByParams = async (
 
   return response
 }
+
+export const deletePlayer = async (id: number) => {
+  const response = await fetch(`${BASE}/players/${id}`, { method: 'DELETE' })
+    .then((response) => response.json())
+    .catch((error) => console.log('Error:', error))
+
+  window.location.reload()
+
+  return response
+}

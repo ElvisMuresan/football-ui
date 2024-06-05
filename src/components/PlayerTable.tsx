@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { IFootballPlayer } from '../types'
-import { getPlayerById } from '../api/football-api'
+import { deletePlayer, getPlayerById } from '../api/football-api'
 
 type IProps = {
   players: IFootballPlayer[]
@@ -39,7 +39,7 @@ export const PlayerTable = ({ players }: IProps) => {
         <tbody>
           {players.map((player) => (
             <tr
-              className="cursor-pointer hover:bg-gray-100 transition-colors"
+              className="cursor-pointer hover:bg-gray-300 transition-colors"
               key={player.id}
               onClick={() => fetchPlayerById(player.id)}
             >
@@ -51,6 +51,15 @@ export const PlayerTable = ({ players }: IProps) => {
               </td>
               <td className="text-right px-5 py-2 border-b border-gray-300">
                 {player.team}
+              </td>
+              <td className="text-right px-5 py-2 border-b border-gray-300">
+                <button
+                  className="text-red-600 hover:font-bold mr-5"
+                  onClick={() => deletePlayer(player.id)}
+                >
+                  Delete
+                </button>
+                <button className="text-blue-600 hover:font-bold">Edit</button>
               </td>
             </tr>
           ))}
