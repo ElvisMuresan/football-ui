@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { IFootballPlayer } from './types'
 import { PlayerTable } from './components/PlayerTable'
+import { FIlterByParams } from './components/FIlterByParams'
 import { getPlayers } from './api/football-api'
 
 export const App = () => {
@@ -21,6 +22,7 @@ export const App = () => {
 
   return (
     <div>
+      <FIlterByParams />
       <PlayerTable players={players} />
     </div>
   )

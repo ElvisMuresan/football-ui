@@ -19,3 +19,15 @@ export const getPlayerById = async (
 
   return response
 }
+
+export const getPlayerByParams = async (
+  team: string,
+  position: string
+): Promise<IFootballPlayer[]> => {
+  const query = new URLSearchParams({ position, team })
+  const response = await fetch(`${BASE}/players?${query.toString()}`)
+    .then((response) => response.json())
+    .catch((error) => console.log('Error:', error))
+
+  return response
+}
