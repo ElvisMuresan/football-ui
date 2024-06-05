@@ -62,3 +62,19 @@ export const editPlayer = async (
 
   return response
 }
+
+export const addPlayer = async (
+  player: IFootballPlayer
+): Promise<IFootballPlayer> => {
+  const response = await fetch(`${BASE}/players`, {
+    body: JSON.stringify(player),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  })
+    .then((response) => response.json())
+    .catch((error) => console.log('Error:', error))
+
+  return response
+}

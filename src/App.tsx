@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { IFootballPlayer } from './types'
 import { PlayerTable } from './components/PlayerTable'
 import { FIlterByParams } from './components/FIlterByParams'
+import { AddingNewPlayer } from './components/AddNewPlayer'
 import { getPlayers } from './api/football-api'
 
 export const App = () => {
@@ -20,8 +21,14 @@ export const App = () => {
     fetchPlayers()
   }, [players.length])
 
+  const handlePlayerAdded = (player: IFootballPlayer) => {
+    setPlayers([...players, player])
+  }
+
   return (
-    <div>
+    <div className="p-12">
+      <AddingNewPlayer onPlayerAdded={handlePlayerAdded} />
+
       <PlayerTable players={players} />
       <FIlterByParams />
     </div>
