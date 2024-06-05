@@ -19,6 +19,11 @@ export const PlayerTable = ({ players }: IProps) => {
     setSelectedPlayer(player)
   }
 
+  const handleDeletePlayer = async (id: number) => {
+    await deletePlayer(id)
+    setSelectedPlayer(null)
+  }
+
   return (
     <>
       <table className="table-auto mb-4 w-full border-collapse border  border-gray-300 shadow-lg">
@@ -32,6 +37,9 @@ export const PlayerTable = ({ players }: IProps) => {
             </th>
             <th className="text-right px-5 py-3 border-b border-gray-300">
               Team
+            </th>
+            <th className="text-right px-5 py-3 border-b border-gray-300">
+              Delete / Edit
             </th>
           </tr>
         </thead>
@@ -55,7 +63,7 @@ export const PlayerTable = ({ players }: IProps) => {
               <td className="text-right px-5 py-2 border-b border-gray-300">
                 <button
                   className="text-red-600 hover:font-bold mr-5"
-                  onClick={() => deletePlayer(player.id)}
+                  onClick={() => handleDeletePlayer(player.id)}
                 >
                   Delete
                 </button>
