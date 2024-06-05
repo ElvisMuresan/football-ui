@@ -21,7 +21,7 @@ export const App = () => {
 
   return (
     <div>
-      <PlayerTable playerss={players} />
+      <PlayerTable players={players} />
     </div>
   )
 }
