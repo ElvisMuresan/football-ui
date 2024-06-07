@@ -23,6 +23,7 @@ export const PlayerTable = ({ players }: IProps) => {
     await deletePlayer(id)
     console.log(players)
     setSelectedPlayer(null)
+    window.location.reload()
   }
 
   return (
@@ -64,7 +65,10 @@ export const PlayerTable = ({ players }: IProps) => {
               <td className="text-right px-5 py-2 border-b border-gray-300">
                 <button
                   className="text-red-600 hover:font-bold mr-5"
-                  onClick={() => handleDeletePlayer(player.id)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleDeletePlayer(player.id)
+                  }}
                 >
                   Delete
                 </button>
