@@ -60,6 +60,8 @@ export const editPlayer = async (
     .then((response) => response.json())
     .catch((error) => console.log('Error:', error))
 
+  window.location.reload()
+
   return response
 }
 
