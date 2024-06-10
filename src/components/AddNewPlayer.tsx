@@ -13,7 +13,7 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
     id: 0,
     name: '',
     number: 0,
-    position: IPosition.Forward,
+    position: IPosition.Defender,
     team: ''
   })
 
@@ -82,9 +82,11 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
         onBlur={(e) => {
           setNewPlayer({ ...newPlayer, position: e.target.value as IPosition })
         }}
+        onChange={(e) => {
+          setNewPlayer({ ...newPlayer, position: e.target.value as IPosition })
+        }}
         value={newPlayer.position}
       >
-        <option value="">All</option>
         {Object.values(IPosition).map((pos) => (
           <option key={pos} value={pos}>
             {pos}
