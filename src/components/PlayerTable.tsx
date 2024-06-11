@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 import { IFootballPlayer } from '../types'
@@ -8,6 +9,7 @@ type IProps = {
 }
 
 export const PlayerTable = ({ players }: IProps) => {
+  const navigate = useNavigate()
   const [selectedPlayer, setSelectedPlayer] = useState<IFootballPlayer | null>(
     null
   )
@@ -23,6 +25,7 @@ export const PlayerTable = ({ players }: IProps) => {
 
     console.log(player)
     setSelectedPlayer(player)
+    navigate(`/${id}`)
   }
 
   const handleDeletePlayer = async (id: number) => {
@@ -189,6 +192,7 @@ export const PlayerTable = ({ players }: IProps) => {
                 <span className="font-semibold text-gray-700 w-24">
                   Position:
                 </span>
+
                 {editPlayerId ? (
                   <input
                     className="block w-full mt-1 p-2 border rounded-md text-gray-700 font-normal bg-gray-200"

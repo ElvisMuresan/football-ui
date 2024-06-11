@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { IFootballPlayer, IPosition } from '../types'
 import { getPlayerByParams } from '../api/football-api'
 
-export const FIlterByParams = () => {
+export const FilterByParams = () => {
   const [team, setTeam] = useState<string>('')
   const [position, setPosition] = useState<'' | IPosition>('')
   const [playersByParams, setPlayersByParams] = useState<IFootballPlayer[]>([])

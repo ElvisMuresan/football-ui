@@ -1,8 +1,11 @@
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import { IFootballPlayer } from './types'
 import { PlayerTable } from './components/PlayerTable'
-import { FIlterByParams } from './components/FIlterByParams'
+import { PlayerDetails } from './components/PlayerDetails'
+import { Nav } from './components/Nav'
+import { FilterByParams } from './components/FIlterByParams'
 import { AddingNewPlayer } from './components/AddNewPlayer'
 import { getPlayers } from './api/football-api'
 
@@ -27,10 +30,20 @@ export const App = () => {
 
   return (
     <div className="p-12">
-      <AddingNewPlayer onPlayerAdded={handlePlayerAdded} />
+      <Router>
+        <Routes>
+          <Route element={<Nav />} path="/">
+            <Route element={<PlayerTable players={players} />} path="/" />
+            <Route
+              element={<AddingNewPlayer onPlayerAdded={handlePlayerAdded} />}
+              path="newPlayer"
+            />
+            <Route element={<FilterByParams />} path="filter" />
 
-      <PlayerTable players={players} />
-      <FIlterByParams />
+            <Route element={<PlayerDetails />} path="/:playerId" />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   )
 }
