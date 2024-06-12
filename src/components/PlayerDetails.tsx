@@ -2,11 +2,19 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import { IFootballPlayer } from '../types'
-import { getPlayerById } from '../api/football-api'
+import { editPlayer, getPlayerById } from '../api/football-api'
+
+import { Button, Select, TextInput } from 'flowbite-react'
 
 export const PlayerDetails = () => {
   const { playerId } = useParams<{ playerId: string }>()
   const [player, setPlayer] = useState<IFootballPlayer | null>(null)
+  const [editPlayerId, setEditPlayerId] = useState<null | number>(null)
+  const [editName, setEditName] = useState('')
+  const [editNumber, setEditNumber] = useState(0)
+  const [editTeam, setEditTeam] = useState('')
+  const [editAge, setEditAge] = useState(0)
+  const [editPosition, setEditPosition] = useState('')
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -14,6 +22,12 @@ export const PlayerDetails = () => {
         const fetchedPlayer = await getPlayerById(Number(playerId))
 
         setPlayer(fetchedPlayer)
+        setEditPlayerId(fetchedPlayer.id)
+        setEditName(fetchedPlayer.name)
+        setEditNumber(fetchedPlayer.number)
+        setEditTeam(fetchedPlayer.team)
+        setEditAge(fetchedPlayer.age)
+        setEditPosition(fetchedPlayer.position)
       }
     }
 
@@ -24,10 +38,56 @@ export const PlayerDetails = () => {
     return <div>Loading...</div>
   }
 
+  const editMode = (player: IFootballPlayer) => {
+    setEditPlayerId(player.id)
+    setEditName(player.name)
+    setEditNumber(player.number)
+    setEditTeam(player.team)
+    setEditAge(player.age)
+    setEditPosition(player.position)
+  }
+
+  const saveInEdit = async (id: number) => {
+    try {
+      await editPlayer(id, {
+        age: editAge,
+        name: editName,
+        number: editNumber,
+        position: editPosition,
+        team: editTeam
+      })
+      setEditPlayerId(null)
+      setPlayer(
+        (prev) =>
+          prev && {
+            ...prev,
+            age: editAge,
+            name: editName,
+            number: editNumber,
+            position: editPosition,
+            team: editTeam
+          }
+      )
+    } catch (error) {
+      console.error('There was a problem updating the player:', error)
+    }
+  }
+
+  const closeInEdit = () => {
+    setEditPlayerId(null)
+    setEditName(player?.name ?? '')
+    setEditNumber(player?.number ?? 0)
+    setEditTeam(player?.team ?? '')
+    setEditAge(player?.age ?? 0)
+    setEditPosition(player?.position ?? '')
+  }
+
+  console.log(editPlayerId)
+
   return (
     <div className="mt-11 mb-4 p-6 bg-white rounded-lg shadow-lg border border-gray-200 max-w-4xl mx-auto">
       <h2 className="font-bold text-2xl text-gray-800 border-b-2 pb-2 mb-4">
-        Player Details
+        {editPlayerId ? 'Edit Player' : 'Player Details'}
       </h2>
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
         <div className="flex items-center">
@@ -36,25 +96,77 @@ export const PlayerDetails = () => {
         </div>
         <div className="flex items-center">
           <span className="font-semibold text-gray-700 w-24">Name:</span>
-          <span className="text-gray-600">{player.name}</span>
+          {editPlayerId ? (
+            <TextInput
+              onChange={(e) => setEditName(e.target.value)}
+              value={editName}
+            />
+          ) : (
+            <span className="text-gray-600">{player.name}</span>
+          )}
         </div>
         <div className="flex items-center">
           <span className="font-semibold text-gray-700 w-24">Number:</span>
-          <span className="text-gray-600">{player.number}</span>
+          {editPlayerId ? (
+            <TextInput
+              onChange={(e) => setEditNumber(parseInt(e.target.value))}
+              type="number"
+              value={editNumber}
+            />
+          ) : (
+            <span className="text-gray-600">{player.number}</span>
+          )}{' '}
         </div>
         <div className="flex items-center">
           <span className="font-semibold text-gray-700 w-24">Team:</span>
-          <span className="text-gray-600">{player.team}</span>
+          {editPlayerId ? (
+            <TextInput
+              onChange={(e) => setEditTeam(e.target.value)}
+              value={editTeam}
+            />
+          ) : (
+            <span className="text-gray-600">{player.team}</span>
+          )}{' '}
         </div>
         <div className="flex items-center">
           <span className="font-semibold text-gray-700 w-24">Age:</span>
-          <span className="text-gray-600">{player.age}</span>
+          {editPlayerId ? (
+            <TextInput
+              onChange={(e) => setEditAge(parseInt(e.target.value))}
+              type="number"
+              value={editAge}
+            />
+          ) : (
+            <span className="text-gray-600">{player.age}</span>
+          )}{' '}
         </div>
         <div className="flex items-center">
           <span className="font-semibold text-gray-700 w-24">Position:</span>
-          <span className="text-gray-600">{player.position}</span>
+          {editPlayerId ? (
+            <Select
+              onChange={(e) => setEditPosition(e.target.value)}
+              value={editPosition}
+            >
+              <option>Forward</option>
+              <option>Midfielder</option>
+              <option>Defender</option>
+              <option>Goalkeeper</option>
+            </Select>
+          ) : (
+            <span className="text-gray-600">{player.position}</span>
+          )}
         </div>
       </div>
+      {editPlayerId && (
+        <div className="mt-4 flex justify-end space-x-4">
+          <Button color="gray" onClick={closeInEdit}>
+            Cancel
+          </Button>
+          <Button color="success" onClick={() => saveInEdit(editPlayerId)}>
+            Save
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
