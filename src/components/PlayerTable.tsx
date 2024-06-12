@@ -4,15 +4,22 @@ import { useState } from 'react'
 import { IFootballPlayer, IPosition } from '../types'
 import { deletePlayer, getPlayerById } from '../api/football-api'
 
+import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import { Button, Modal } from 'flowbite-react'
+
 type IProps = {
   players: IFootballPlayer[]
 }
 
 export const PlayerTable = ({ players }: IProps) => {
   const navigate = useNavigate()
+  const [openModal, setOpenModal] = useState(false)
+
   const [team, setTeam] = useState<string>('')
   const [position, setPosition] = useState<'' | IPosition>('')
-  const [playersByParams, setPlayersByParams] = useState<IFootballPlayer[]>([])
+  const [playerToDelete, setPlayerToDelete] = useState<IFootballPlayer | null>(
+    null
+  )
 
   const fetchPlayerById = async (id: number) => {
     const player = await getPlayerById(id)
@@ -89,27 +96,35 @@ export const PlayerTable = ({ players }: IProps) => {
             <tr
               className="cursor-pointer hover:bg-gray-300 transition-colors"
               key={player.id}
-              onClick={() => fetchPlayerById(player.id)}
             >
               <td className="text-right px-5 py-2 border-b border-gray-300">
                 {player.id}
               </td>
-              <td className="text-right px-5 py-2 border-b border-gray-300">
+              <td
+                className="text-right px-5 py-2 border-b border-gray-300"
+                onClick={() => fetchPlayerById(player.id)}
+              >
                 {player.name}
               </td>
-              <td className="text-right px-5 py-2 border-b border-gray-300">
+              <td
+                className="text-right px-5 py-2 border-b border-gray-300"
+                onClick={() => fetchPlayerById(player.id)}
+              >
                 {player.team}
               </td>
               <td className="text-right px-5 py-2 border-b border-gray-300">
-                <button
-                  className="text-red-600 hover:font-bold mr-5"
+                <Button
+                  className="hover:font-bold mr-5"
+                  color="failure"
                   onClick={(e) => {
                     e.stopPropagation()
-                    handleDeletePlayer(player.id)
+                    setPlayerToDelete(player)
+                    setOpenModal(true)
                   }}
                 >
                   Delete
-                </button>
+                </Button>
+
                 <button
                   className="text-blue-600 hover:font-bold"
                   onClick={(e) => {
@@ -124,6 +139,41 @@ export const PlayerTable = ({ players }: IProps) => {
           ))}
         </tbody>
       </table>
+      <Modal
+        onClose={() => {
+          setOpenModal(false)
+          setPlayerToDelete(null)
+        }}
+        popup={true}
+        show={openModal}
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              {`Are you sure you want to delete the player named ${playerToDelete?.name}?`}
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button
+                color="failure"
+                onClick={() => {
+                  if (playerToDelete) {
+                    handleDeletePlayer(playerToDelete.id)
+                  }
+                  setOpenModal(false)
+                }}
+              >
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setOpenModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   )
 }
