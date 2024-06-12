@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
@@ -7,6 +8,8 @@ import { PlayerDetails } from './components/PlayerDetails'
 import { Nav } from './components/Nav'
 import { AddingNewPlayer } from './components/AddNewPlayer'
 import { getPlayers } from './api/football-api'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 export const App = () => {
   const [players, setPlayers] = useState<IFootballPlayer[]>([])
@@ -41,6 +44,7 @@ export const App = () => {
           </Route>
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   )
 }

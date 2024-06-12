@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 import { IFootballPlayer, IPosition } from '../types'
@@ -16,11 +18,16 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
     position: IPosition.Defender,
     team: ''
   })
+  const navigate = useNavigate()
 
   const handleAddPlayer = async () => {
     const player = await addPlayer(newPlayer)
 
     onPlayerAdded(player)
+    toast.success('Player added successfully!', {
+      position: 'bottom-right'
+    })
+    navigate('/')
   }
 
   return (
