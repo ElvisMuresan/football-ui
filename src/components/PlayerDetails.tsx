@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import { IFootballPlayer } from '../types'
@@ -7,7 +7,11 @@ import { editPlayer, getPlayerById } from '../api/football-api'
 import { Button, Select, TextInput } from 'flowbite-react'
 
 export const PlayerDetails = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
   const { playerId } = useParams<{ playerId: string }>()
+  const searchParams = new URLSearchParams(location.search)
+  const isEditMode = searchParams.get('edit') === 'true'
   const [player, setPlayer] = useState<IFootballPlayer | null>(null)
   const [editPlayerId, setEditPlayerId] = useState<null | number>(null)
   const [editName, setEditName] = useState('')
@@ -22,30 +26,32 @@ export const PlayerDetails = () => {
         const fetchedPlayer = await getPlayerById(Number(playerId))
 
         setPlayer(fetchedPlayer)
-        setEditPlayerId(fetchedPlayer.id)
-        setEditName(fetchedPlayer.name)
-        setEditNumber(fetchedPlayer.number)
-        setEditTeam(fetchedPlayer.team)
-        setEditAge(fetchedPlayer.age)
-        setEditPosition(fetchedPlayer.position)
+        if (isEditMode && fetchedPlayer) {
+          setEditPlayerId(fetchedPlayer.id)
+          setEditName(fetchedPlayer.name)
+          setEditNumber(fetchedPlayer.number)
+          setEditTeam(fetchedPlayer.team)
+          setEditAge(fetchedPlayer.age)
+          setEditPosition(fetchedPlayer.position)
+        }
       }
     }
 
     fetchPlayer()
-  }, [playerId])
+  }, [playerId, isEditMode])
 
   if (!player) {
     return <div>Loading...</div>
   }
 
-  const editMode = (player: IFootballPlayer) => {
-    setEditPlayerId(player.id)
-    setEditName(player.name)
-    setEditNumber(player.number)
-    setEditTeam(player.team)
-    setEditAge(player.age)
-    setEditPosition(player.position)
-  }
+  // const editMode = (player: IFootballPlayer) => {
+  //   setEditPlayerId(player.id)
+  //   setEditName(player.name)
+  //   setEditNumber(player.number)
+  //   setEditTeam(player.team)
+  //   setEditAge(player.age)
+  //   setEditPosition(player.position)
+  // }
 
   const saveInEdit = async (id: number) => {
     try {
@@ -56,18 +62,18 @@ export const PlayerDetails = () => {
         position: editPosition,
         team: editTeam
       })
+      setPlayer({
+        ...player,
+        age: editAge,
+        name: editName,
+        number: editNumber,
+        position: editPosition,
+        team: editTeam
+      })
       setEditPlayerId(null)
-      setPlayer(
-        (prev) =>
-          prev && {
-            ...prev,
-            age: editAge,
-            name: editName,
-            number: editNumber,
-            position: editPosition,
-            team: editTeam
-          }
-      )
+      navigate('/')
+
+      console.log('editSave:', editPlayerId)
     } catch (error) {
       console.error('There was a problem updating the player:', error)
     }
@@ -75,11 +81,6 @@ export const PlayerDetails = () => {
 
   const closeInEdit = () => {
     setEditPlayerId(null)
-    setEditName(player?.name ?? '')
-    setEditNumber(player?.number ?? 0)
-    setEditTeam(player?.team ?? '')
-    setEditAge(player?.age ?? 0)
-    setEditPosition(player?.position ?? '')
   }
 
   console.log(editPlayerId)

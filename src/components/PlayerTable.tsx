@@ -48,20 +48,15 @@ export const PlayerTable = ({ players }: IProps) => {
             <tr
               className="cursor-pointer hover:bg-gray-300 transition-colors"
               key={player.id}
+              onClick={() => fetchPlayerById(player.id)}
             >
               <td className="text-right px-5 py-2 border-b border-gray-300">
                 {player.id}
               </td>
-              <td
-                className="text-right px-5 py-2 border-b border-gray-300"
-                onClick={() => fetchPlayerById(player.id)}
-              >
+              <td className="text-right px-5 py-2 border-b border-gray-300">
                 {player.name}
               </td>
-              <td
-                className="text-right px-5 py-2 border-b border-gray-300"
-                onClick={() => fetchPlayerById(player.id)}
-              >
+              <td className="text-right px-5 py-2 border-b border-gray-300">
                 {player.team}
               </td>
               <td className="text-right px-5 py-2 border-b border-gray-300">
@@ -76,7 +71,10 @@ export const PlayerTable = ({ players }: IProps) => {
                 </button>
                 <button
                   className="text-blue-600 hover:font-bold"
-                  onClick={() => fetchPlayerById(player.id)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    navigate(`/${player.id}?edit=true`)
+                  }}
                 >
                   Edit
                 </button>
