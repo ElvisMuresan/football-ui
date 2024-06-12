@@ -13,13 +13,6 @@ import {
 
 export const Nav = () => {
   return (
-    // <div>
-    //   <nav className="flex justify-center gap-20 bg-gray-300 w-screen p-5 text-2xl font-bold">
-    //     <Link to="/">Home</Link>
-    //     <Link to="/newplayer">Add a new Player</Link>
-    //   </nav>
-    //   <Outlet />
-    // </div>
     <div>
       <Navbar fluid={true} rounded={true}>
         <NavbarBrand href="https://flowbite-react.com">
@@ -33,14 +26,16 @@ export const Nav = () => {
           </span>
         </NavbarBrand>
         <div className="flex md:order-2">
-          <Button>Get started</Button>
+          <Button gradientMonochrome="cyan">Get started</Button>
           <NavbarToggle />
         </div>
         <NavbarCollapse>
-          <NavbarLink active={true} href="/">
+          <NavbarLink className="text-lg" href="/">
             Home
           </NavbarLink>
-          <NavbarLink href="/newplayer">Add a new Player</NavbarLink>
+          <NavbarLink className="text-lg" href="/newplayer">
+            Add a new Player
+          </NavbarLink>
         </NavbarCollapse>
       </Navbar>
       <Outlet />

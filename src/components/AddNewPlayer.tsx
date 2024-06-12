@@ -105,5 +105,88 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
         Add New Player
       </button>
     </div>
+    // <form className="flex max-w-md flex-col gap-4">
+    //   <div>
+    //     <div className="mb-2 block">
+    //       <Label htmlFor="email2" value="Player Name" />
+    //     </div>
+    //     <TextInput
+    //       id="newName"
+    //       onChange={(e) => setNewPlayer({ ...newPlayer, name: e.target.value })}
+    //       required={true}
+    //       shadow={true}
+    //       type="text"
+    //       value={newPlayer.name}
+    //     />
+    //   </div>
+    //   <div>
+    //     <div className="mb-2 block">
+    //       <Label htmlFor="password2" value="Player Number" />
+    //     </div>
+    //     <TextInput
+    //       id="newNumber"
+    //       onChange={(e) =>
+    //         setNewPlayer({ ...newPlayer, number: parseInt(e.target.value) })
+    //       }
+    //       required={true}
+    //       shadow={true}
+    //       type="number"
+    //       value={newPlayer.number}
+    //     />
+    //   </div>
+    //   <div>
+    //     <div className="mb-2 block">
+    //       <Label htmlFor="repeat-password" value="Player Team" />
+    //     </div>
+    //     <TextInput
+    //       id="newTeam"
+    //       onChange={(e) => setNewPlayer({ ...newPlayer, team: e.target.value })}
+    //       required={true}
+    //       shadow={true}
+    //       type="text"
+    //       value={newPlayer.team}
+    //     />
+    //   </div>
+    //   <div>
+    //     <div className="mb-2 block">
+    //       <Label htmlFor="password2" value="Player Age" />
+    //     </div>
+    //     <TextInput id="password2" required={true} shadow={true} type="number" />
+    //   </div>
+    //   <div>
+    //     <div className="mb-2 block">
+    //       <Label htmlFor="repeat-password" value="Player Position" />
+    //     </div>
+    //     <Select
+    //       id="position"
+    //       onBlur={(e) => {
+    //         setNewPlayer({
+    //           ...newPlayer,
+    //           position: e.target.value as IPosition
+    //         })
+    //       }}
+    //       onChange={(e) => {
+    //         setNewPlayer({
+    //           ...newPlayer,
+    //           position: e.target.value as IPosition
+    //         })
+    //       }}
+    //       required={true}
+    //       shadow={true}
+    //       type="text"
+    //       value={newPlayer.position}
+    //     >
+    //       {Object.values(IPosition).map((pos) => (
+    //         <option key={pos} value={pos}>
+    //           {pos}
+    //         </option>
+    //       ))}
+    //     </Select>
+    //   </div>
+
+    //   <Button onClick={handleAddPlayer} type="submit">
+    //     Add new player
+    //   </Button>
+    // </form>
   )
 }
