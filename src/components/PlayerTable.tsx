@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import React from 'react'
 
 import { IFootballPlayer, IPosition } from '../types'
 import { deletePlayer, getPlayerById } from '../api/football-api'
@@ -34,12 +35,16 @@ export const PlayerTable = ({ players }: IProps) => {
     window.location.reload()
   }
 
-  const filterPlayers = players.filter((item) => {
-    const filterByTeam = item.team.toLowerCase().includes(team.toLowerCase())
-    const filterByPostion = position === '' || item.position === position
+  const filterPlayers = players.filter(
+    ({ position: playerPosition, team: playerTeam }) => {
+      const filterByTeam = playerTeam
+        ?.toLowerCase()
+        .includes(team.toLowerCase())
+      const filterByPosition = !position || playerPosition === position
 
-    return filterByTeam && filterByPostion
-  })
+      return filterByTeam && filterByPosition
+    }
+  )
 
   return (
     <>
@@ -113,27 +118,30 @@ export const PlayerTable = ({ players }: IProps) => {
                 {player.team}
               </td>
               <td className="text-right px-5 py-2 border-b border-gray-300">
-                <Button
-                  className="hover:font-bold mr-5"
-                  color="failure"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setPlayerToDelete(player)
-                    setOpenModal(true)
-                  }}
-                >
-                  Delete
-                </Button>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    className="hover:font-bold mr-5"
+                    color="failure"
+                    gradientMonochrome="failure"
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation()
+                      setPlayerToDelete(player)
+                      setOpenModal(true)
+                    }}
+                  >
+                    Delete
+                  </Button>
 
-                <button
-                  className="text-blue-600 hover:font-bold"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    navigate(`/${player.id}?edit=true`)
-                  }}
-                >
-                  Edit
-                </button>
+                  <Button
+                    gradientMonochrome="cyan"
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation()
+                      navigate(`/${player.id}?edit=true`)
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}
@@ -165,7 +173,7 @@ export const PlayerTable = ({ players }: IProps) => {
                   setOpenModal(false)
                 }}
               >
-                Yes, I'm sure
+                Yes, I am sure
               </Button>
               <Button color="gray" onClick={() => setOpenModal(false)}>
                 No, cancel
