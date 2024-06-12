@@ -5,7 +5,6 @@ import { IFootballPlayer } from './types'
 import { PlayerTable } from './components/PlayerTable'
 import { PlayerDetails } from './components/PlayerDetails'
 import { Nav } from './components/Nav'
-import { FilterByParams } from './components/FIlterByParams'
 import { AddingNewPlayer } from './components/AddNewPlayer'
 import { getPlayers } from './api/football-api'
 
@@ -38,8 +37,6 @@ export const App = () => {
               element={<AddingNewPlayer onPlayerAdded={handlePlayerAdded} />}
               path="newPlayer"
             />
-            <Route element={<FilterByParams />} path="filter" />
-
             <Route element={<PlayerDetails />} path="/:playerId" />
           </Route>
         </Routes>

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import { IFootballPlayer } from '../types'
+import { IFootballPlayer, IPosition } from '../types'
 import { editPlayer, getPlayerById } from '../api/football-api'
 
 import { Button, Select, TextInput } from 'flowbite-react'
@@ -18,7 +18,7 @@ export const PlayerDetails = () => {
   const [editNumber, setEditNumber] = useState(0)
   const [editTeam, setEditTeam] = useState('')
   const [editAge, setEditAge] = useState(0)
-  const [editPosition, setEditPosition] = useState('')
+  const [editPosition, setEditPosition] = useState<'' | IPosition>('')
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -43,15 +43,6 @@ export const PlayerDetails = () => {
   if (!player) {
     return <div>Loading...</div>
   }
-
-  // const editMode = (player: IFootballPlayer) => {
-  //   setEditPlayerId(player.id)
-  //   setEditName(player.name)
-  //   setEditNumber(player.number)
-  //   setEditTeam(player.team)
-  //   setEditAge(player.age)
-  //   setEditPosition(player.position)
-  // }
 
   const saveInEdit = async (id: number) => {
     try {
@@ -145,13 +136,16 @@ export const PlayerDetails = () => {
           <span className="font-semibold text-gray-700 w-24">Position:</span>
           {editPlayerId ? (
             <Select
-              onChange={(e) => setEditPosition(e.target.value)}
+              onChange={(e) =>
+                setEditPosition(e.target.value as '' | IPosition)
+              }
               value={editPosition}
             >
-              <option>Forward</option>
-              <option>Midfielder</option>
-              <option>Defender</option>
-              <option>Goalkeeper</option>
+              {Object.values(IPosition).map((pos) => (
+                <option key={pos} value={pos}>
+                  {pos}
+                </option>
+              ))}
             </Select>
           ) : (
             <span className="text-gray-600">{player.position}</span>
