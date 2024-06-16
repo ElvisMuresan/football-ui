@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { IFootballPlayer, IPosition } from '../types'
 import { addPlayer } from '../api/football-api'
 
+import { Button, Label, Select, TextInput } from 'flowbite-react'
+
 interface AddingNewPlayerProps {
   onPlayerAdded: (player: IFootballPlayer) => void
 }
@@ -21,6 +23,8 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
   const navigate = useNavigate()
 
   const handleAddPlayer = async () => {
+    console.log('Adding player:', newPlayer)
+
     const player = await addPlayer(newPlayer)
 
     onPlayerAdded(player)
@@ -31,162 +35,109 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
   }
 
   return (
-    <div className="mb-4 p-6 shadow-lg border border-gray-200 max-w-8xl mx-auto flex items-center space-x-8">
-      <label className="mr-2" htmlFor="team">
-        Name:
-      </label>
-      <input
-        className="mr-2 p-2 border border-gray-300 w-24"
-        id="newName"
-        onChange={(e) => setNewPlayer({ ...newPlayer, name: e.target.value })}
-        type="text"
-        value={newPlayer.name}
-      />
+    <div className="flex justify-center">
+      <form className="mt-11 flex max-w-md flex-col gap-4">
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email2" value="Player Name" />
+          </div>
+          <TextInput
+            id="newName"
+            onChange={(e) =>
+              setNewPlayer({ ...newPlayer, name: e.target.value })
+            }
+            required={true}
+            shadow={true}
+            type="text"
+            value={newPlayer.name}
+          />
+        </div>
 
-      <label className="mr-2" htmlFor="team">
-        Number:
-      </label>
-      <input
-        className="mr-4 p-2 border border-gray-300 w-12"
-        id="newNumber"
-        onChange={(e) =>
-          setNewPlayer({ ...newPlayer, number: parseInt(e.target.value) })
-        }
-        type="number"
-        value={newPlayer.number}
-      />
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password2" value="Player Number" />
+          </div>
+          <TextInput
+            id="newNumber"
+            onChange={(e) =>
+              setNewPlayer({ ...newPlayer, number: parseInt(e.target.value) })
+            }
+            required={true}
+            shadow={true}
+            type="number"
+            value={newPlayer.number}
+          />
+        </div>
 
-      <label className="mr-2" htmlFor="team">
-        Team:
-      </label>
-      <input
-        className="mr-4 p-2 border border-gray-300 w-24"
-        id="newTeam"
-        onChange={(e) => setNewPlayer({ ...newPlayer, team: e.target.value })}
-        type="text"
-        value={newPlayer.team}
-      />
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="repeat-password" value="Player Team" />
+          </div>
+          <TextInput
+            id="newTeam"
+            onChange={(e) =>
+              setNewPlayer({ ...newPlayer, team: e.target.value })
+            }
+            required={true}
+            shadow={true}
+            type="text"
+            value={newPlayer.team}
+          />
+        </div>
 
-      <label className="mr-2" htmlFor="team">
-        Age:
-      </label>
-      <input
-        className="mr-4 p-2 border border-gray-300 w-12"
-        id="newAge"
-        onChange={(e) =>
-          setNewPlayer({ ...newPlayer, age: parseInt(e.target.value) })
-        }
-        type="number"
-        value={newPlayer.age}
-      />
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password2" value="Player Age" />
+          </div>
+          <TextInput
+            id="newAge"
+            onChange={(e) =>
+              setNewPlayer({ ...newPlayer, age: parseInt(e.target.value) })
+            }
+            required={true}
+            shadow={true}
+            type="number"
+            value={newPlayer.age}
+          />
+        </div>
 
-      <label className="mr-2" htmlFor="position">
-        Position:
-      </label>
-      <select
-        className="mr-4 p-2 border border-gray-300"
-        id="position"
-        onBlur={(e) => {
-          setNewPlayer({ ...newPlayer, position: e.target.value as IPosition })
-        }}
-        onChange={(e) => {
-          setNewPlayer({ ...newPlayer, position: e.target.value as IPosition })
-        }}
-        value={newPlayer.position}
-      >
-        {Object.values(IPosition).map((pos) => (
-          <option key={pos} value={pos}>
-            {pos}
-          </option>
-        ))}
-      </select>
+        <div className="mb-2 block">
+          <Label htmlFor="repeat-password" value="Player Position" />
+        </div>
+        <Select
+          id="position"
+          onBlur={(e) => {
+            setNewPlayer({
+              ...newPlayer,
+              position: e.target.value as IPosition
+            })
+          }}
+          onChange={(e) => {
+            setNewPlayer({
+              ...newPlayer,
+              position: e.target.value as IPosition
+            })
+          }}
+          required={true}
+          shadow={true}
+          type="text"
+          value={newPlayer.position}
+        >
+          {Object.values(IPosition).map((pos) => (
+            <option key={pos} value={pos}>
+              {pos}
+            </option>
+          ))}
+        </Select>
 
-      <button className="p-2 bg-blue-500 text-white" onClick={handleAddPlayer}>
-        Add New Player
-      </button>
+        <Button
+          className="p-2 bg-blue-500 text-white"
+          gradientMonochrome="cyan"
+          onClick={handleAddPlayer}
+        >
+          Add New Player
+        </Button>
+      </form>
     </div>
-    // <form className="flex max-w-md flex-col gap-4">
-    //   <div>
-    //     <div className="mb-2 block">
-    //       <Label htmlFor="email2" value="Player Name" />
-    //     </div>
-    //     <TextInput
-    //       id="newName"
-    //       onChange={(e) => setNewPlayer({ ...newPlayer, name: e.target.value })}
-    //       required={true}
-    //       shadow={true}
-    //       type="text"
-    //       value={newPlayer.name}
-    //     />
-    //   </div>
-    //   <div>
-    //     <div className="mb-2 block">
-    //       <Label htmlFor="password2" value="Player Number" />
-    //     </div>
-    //     <TextInput
-    //       id="newNumber"
-    //       onChange={(e) =>
-    //         setNewPlayer({ ...newPlayer, number: parseInt(e.target.value) })
-    //       }
-    //       required={true}
-    //       shadow={true}
-    //       type="number"
-    //       value={newPlayer.number}
-    //     />
-    //   </div>
-    //   <div>
-    //     <div className="mb-2 block">
-    //       <Label htmlFor="repeat-password" value="Player Team" />
-    //     </div>
-    //     <TextInput
-    //       id="newTeam"
-    //       onChange={(e) => setNewPlayer({ ...newPlayer, team: e.target.value })}
-    //       required={true}
-    //       shadow={true}
-    //       type="text"
-    //       value={newPlayer.team}
-    //     />
-    //   </div>
-    //   <div>
-    //     <div className="mb-2 block">
-    //       <Label htmlFor="password2" value="Player Age" />
-    //     </div>
-    //     <TextInput id="password2" required={true} shadow={true} type="number" />
-    //   </div>
-    //   <div>
-    //     <div className="mb-2 block">
-    //       <Label htmlFor="repeat-password" value="Player Position" />
-    //     </div>
-    //     <Select
-    //       id="position"
-    //       onBlur={(e) => {
-    //         setNewPlayer({
-    //           ...newPlayer,
-    //           position: e.target.value as IPosition
-    //         })
-    //       }}
-    //       onChange={(e) => {
-    //         setNewPlayer({
-    //           ...newPlayer,
-    //           position: e.target.value as IPosition
-    //         })
-    //       }}
-    //       required={true}
-    //       shadow={true}
-    //       type="text"
-    //       value={newPlayer.position}
-    //     >
-    //       {Object.values(IPosition).map((pos) => (
-    //         <option key={pos} value={pos}>
-    //           {pos}
-    //         </option>
-    //       ))}
-    //     </Select>
-    //   </div>
-
-    //   <Button onClick={handleAddPlayer} type="submit">
-    //     Add new player
-    //   </Button>
-    // </form>
   )
 }
