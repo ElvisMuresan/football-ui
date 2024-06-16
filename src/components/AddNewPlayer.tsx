@@ -55,7 +55,7 @@ export const AddingNewPlayer = ({ onPlayerAdded }: AddingNewPlayerProps) => {
 
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="password2" value="Player Number" />
+            <Label htmlFor="password2" value="Player Numberrr" />
           </div>
           <TextInput
             id="newNumber"
